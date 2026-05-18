@@ -34,8 +34,7 @@
       margin: 0;
       color: var(--ink);
       font-family: var(--font);
-      background:
-        linear-gradient(180deg, rgba(248,250,248,.98), rgba(244,247,246,.98));
+      background: linear-gradient(180deg, rgba(248,250,248,.98), rgba(244,247,246,.98));
       line-height: 1.55;
       letter-spacing: 0;
     }
@@ -55,7 +54,7 @@
       justify-content: center;
       gap: clamp(22px, 3vw, 38px);
       position: relative;
-      opacity: .35;
+      opacity: 0; /* 修复基础可见度，配合JS控制 */
       transform: translateY(18px);
       transition: opacity .55s ease, transform .55s ease;
       border-bottom: 1px solid rgba(37, 63, 76, .07);
@@ -95,8 +94,7 @@
 
     .cover-slide {
       justify-content: center;
-      background:
-        linear-gradient(180deg, rgba(248,250,248,.96), rgba(241,246,245,.96));
+      background: linear-gradient(180deg, rgba(248,250,248,.96), rgba(241,246,245,.96));
     }
 
     .cover-content {
@@ -196,7 +194,6 @@
       stroke-width: 1.6;
       stroke-linecap: round;
       stroke-linejoin: round;
-      marker-end: url(#arrowHead);
     }
 
     .underline {
@@ -359,15 +356,8 @@
       color: var(--ink);
       padding: 14px 16px;
       text-align: left;
-      display: grid;
-      grid-template-columns: 28px 1fr;
-      align-items: start;
-      gap: 12px;
-      transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
-    }
-
-    .tree-node {
       display: block;
+      transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
     }
 
     .tree-node-header {
@@ -424,12 +414,6 @@
       line-height: 1.45;
     }
 
-    .tree-node-sub {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
     .tree-subnodes {
       margin: 12px 0 0 40px;
       padding-left: 20px;
@@ -475,25 +459,13 @@
 
     .tree-expandable.is-open .tree-expand-content {
       margin-top: 10px;
+      max-height: 2000px; /* 确保能展开 */
     }
 
     .argument {
       padding: 4px 0 4px 18px;
       color: #304a56;
       font-size: 14px;
-    }
-
-    .argument h3 {
-      color: var(--accent);
-      font-size: 15px;
-      margin: 16px 0 8px;
-    }
-
-    .argument h3:first-child { margin-top: 0; }
-
-    .argument ol, .argument ul {
-      margin: 8px 0 0;
-      padding-left: 20px;
     }
 
     .argument-list {
@@ -505,6 +477,7 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
+      margin: 6px 0;
     }
 
     .logic-tag {
@@ -520,8 +493,6 @@
       text-align: center;
       flex: 0 0 auto;
     }
-
-    .argument li { margin: 6px 0; }
 
     .logic-line {
       margin: 10px 0;
@@ -657,89 +628,31 @@
         justify-content: flex-start;
         padding: 28px 18px 78px;
       }
-
-      .slide__header {
-        align-items: flex-start;
-      }
-
-      .cover-content {
-        min-height: 72vh;
-      }
-
+      .slide__header { align-items: flex-start; }
+      .cover-content { min-height: 72vh; }
       .argument-tree {
         min-width: 0;
         grid-template-columns: 132px 40px minmax(0, 1fr);
         padding: 8px 0;
       }
-
-      .root-node {
-        min-height: 58px;
-        font-size: 22px;
-      }
-
-      .tree-connector {
-        min-height: 440px;
-      }
-
-      .tree-connector::before {
-        left: 20px;
-        top: 30px;
-        bottom: 30px;
-      }
-
-      .tree-connector::after {
-        width: 20px;
-      }
-
-      .tree-branch::before {
-        left: -22px;
-        width: 22px;
-      }
-
-      .tree-branch:first-child::after,
-      .tree-branch:last-child::after {
-        left: -22px;
-      }
-
-      .tree-node {
-        padding: 12px;
-      }
-
-      .tree-node-title {
-        font-size: 15px;
-      }
-
-      .tree-subnodes {
-        margin-left: 22px;
-        padding-left: 16px;
-      }
-
-      .tree-subnode {
-        font-size: 13px;
-      }
-
-      .contrib-card {
-        grid-template-columns: 1fr;
-      }
-
-      .conclusion-bar {
-        grid-template-columns: 1fr;
-      }
-
-      .controls {
-        right: 12px;
-        bottom: 12px;
-      }
+      .root-node { min-height: 58px; font-size: 22px; }
+      .tree-connector { min-height: 440px; }
+      .tree-connector::before { left: 20px; top: 30px; bottom: 30px; }
+      .tree-connector::after { width: 20px; }
+      .tree-branch::before { left: -22px; width: 22px; }
+      .tree-branch:first-child::after, .tree-branch:last-child::after { left: -22px; }
+      .tree-node { padding: 12px; }
+      .tree-node-title { font-size: 15px; }
+      .tree-subnodes { margin-left: 22px; padding-left: 16px; }
+      .tree-subnode { font-size: 13px; }
+      .contrib-card { grid-template-columns: 1fr; }
+      .conclusion-bar { grid-template-columns: 1fr; }
+      .controls { right: 12px; bottom: 12px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .slide,
-      .tree-expand-content,
-      .tree-expand-toggle,
-      .progress {
-        transition: none;
-      }
+      .slide, .tree-expand-content, .tree-expand-toggle, .progress { transition: none; }
     }
   </style>
 </head>
@@ -811,8 +724,8 @@
           <text class="diagram-small" x="540" y="384">既有研究多聚焦于具体问题（实施过程、动因等）</text>
           <text class="diagram-small underline" x="540" y="450">对理论背后前提基础关注不足</text>
 
-          <path class="diagram-arrow" d="M1010 338 C1132 390 1050 468 830 492 C620 512 412 504 298 514"></path>
-          <path class="diagram-arrow" d="M542 468 C452 492 376 510 298 522"></path>
+          <path stroke="#9aa8b2" stroke-width="1.6" fill="none" d="M1010 338 C1132 390 1050 468 830 492 C620 512 412 504 298 514"></path>
+          <path stroke="#9aa8b2" stroke-width="1.6" fill="none" d="M542 468 C452 492 376 510 298 522"></path>
 
           <rect class="node-box" x="18" y="512" width="280" height="58" rx="10"></rect>
           <text class="node-text" x="40" y="536">本文定位：</text>
@@ -1078,81 +991,107 @@
   </nav>
 
   <script>
-    const slides = [...document.querySelectorAll('.slide')];
-    const progress = document.querySelector('.progress');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        entry.target.classList.toggle('is-visible', entry.isIntersecting);
-      });
-    }, { threshold: 0.45 });
-
-    slides.forEach((slide) => observer.observe(slide));
-
-    function currentIndex() {
-      const midpoint = window.scrollY + window.innerHeight / 2;
-      return slides.findIndex((slide, index) => {
-        const top = slide.offsetTop;
-        const bottom = top + slide.offsetHeight;
-        return midpoint >= top && midpoint < bottom || index === slides.length - 1 && midpoint >= top;
-      });
-    }
-
-    function goTo(index) {
-      const target = slides[Math.max(0, Math.min(slides.length - 1, index))];
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function updateProgress() {
-      const doc = document.documentElement;
-      const scrollable = doc.scrollHeight - window.innerHeight;
-      const pct = scrollable <= 0 ? 0 : window.scrollY / scrollable * 100;
-      progress.style.width = `${pct}%`;
-    }
-
-    document.querySelector('[data-prev]').addEventListener('click', () => goTo(currentIndex() - 1));
-    document.querySelector('[data-next]').addEventListener('click', () => goTo(currentIndex() + 1));
-    document.querySelector('[data-fullscreen]').addEventListener('click', async () => {
-      if (!document.fullscreenElement) {
-        await document.documentElement.requestFullscreen();
+    // 树形节点折叠控制
+    function toggleTreeDetail(btn) {
+      const expandable = btn.closest('.tree-expandable');
+      const content = expandable.querySelector('.tree-expand-content');
+      const isOpen = expandable.classList.contains('is-open');
+      
+      if (isOpen) {
+        expandable.classList.remove('is-open');
+        content.style.maxHeight = '0px';
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = '+';
       } else {
-        await document.exitFullscreen();
+        expandable.classList.add('is-open');
+        content.style.maxHeight = '2000px';
+        btn.setAttribute('aria-expanded', 'true');
+        btn.textContent = '-';
       }
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') {
-        event.preventDefault();
-        goTo(currentIndex() + 1);
-      }
-      if (event.key === 'ArrowUp' || event.key === 'PageUp') {
-        event.preventDefault();
-        goTo(currentIndex() - 1);
-      }
-      if (event.key.toLowerCase() === 'f') {
-        document.querySelector('[data-fullscreen]').click();
-      }
-    });
-
-    function setTreeDetailHeight(item) {
-      const content = item.querySelector('.tree-expand-content');
-      content.style.maxHeight = item.classList.contains('is-open') ? `${content.scrollHeight}px` : '0px';
     }
 
-    function toggleTreeDetail(button) {
-      const item = button.closest('.tree-expandable');
-      item.classList.toggle('is-open');
-      button.setAttribute('aria-expanded', item.classList.contains('is-open'));
-      setTreeDetailHeight(item);
-    }
+    // PPT幻灯片翻页与展示控制逻辑
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const progress = document.querySelector('.progress');
+      let currentIdx = 0;
 
-    window.addEventListener('resize', () => {
-      document.querySelectorAll('.tree-expandable').forEach(setTreeDetailHeight);
+      function updateSlides() {
+        slides.forEach((slide, idx) => {
+          if (idx === currentIdx) {
+            slide.classList.add('is-visible');
+          } else {
+            slide.classList.remove('is-visible');
+          }
+        });
+        if(progress) {
+          progress.style.width = ((currentIdx + 1) / slides.length) * 100 + '%';
+        }
+      }
+
+      // 初始化显示第一页
+      updateSlides();
+
+      // 滚动检测（交叉观察器）确保滑动顺畅
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const idx = slides.indexOf(entry.target);
+            if (idx !== -1) {
+              currentIdx = idx;
+              updateSlides();
+            }
+          }
+        });
+      }, { threshold: 0.5 });
+
+      slides.forEach(slide => observer.observe(slide));
+
+      // 按钮翻页控制
+      document.querySelector('[data-next]').addEventListener('click', () => {
+        if (currentIdx < slides.length - 1) {
+          currentIdx++;
+          slides[currentIdx].scrollIntoView({ behavior: 'smooth' });
+          updateSlides();
+        }
+      });
+
+      document.querySelector('[data-prev]').addEventListener('click', () => {
+        if (currentIdx > 0) {
+          currentIdx--;
+          slides[currentIdx].scrollIntoView({ behavior: 'smooth' });
+          updateSlides();
+        }
+      });
+
+      // 全屏控制
+      document.querySelector('[data-fullscreen]').addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      });
+
+      // 键盘快捷键翻页
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+          e.preventDefault();
+          if (currentIdx < slides.length - 1) {
+            currentIdx++;
+            slides[currentIdx].scrollIntoView({ behavior: 'smooth' });
+            updateSlides();
+          }
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          e.preventDefault();
+          if (currentIdx > 0) {
+            currentIdx--;
+            slides[currentIdx].scrollIntoView({ behavior: 'smooth' });
+            updateSlides();
+          }
+        }
+      });
     });
-
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
-    updateProgress();
   </script>
 </body>
 </html>
